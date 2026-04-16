@@ -1,0 +1,16 @@
+# 水果识别项目依赖
+
+# === 训练 / 评估 ===
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.21.0
+matplotlib>=3.4.0
+seaborn>=0.11.0
+Pillow>=9.0.0
+scikit-learn>=1.0.0
+tqdm>=4.62.0
+
+# === GUI 界面 ===
+PySide6>=6.4.0
+onnxruntime>=1.15.0
+pyinstaller>=6.19.0
