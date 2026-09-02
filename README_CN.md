@@ -6,6 +6,8 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-orange.svg)](https://pytorch.org)
+[![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-RoL1n%2F20--Fruit__Recognition-yellow)](https://huggingface.co/RoL1n/20-Fruit_Recognition)
+[![GitHub Release](https://img.shields.io/badge/Release-v1.0.0-brightgreen.svg)](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **测试集准确率：91.78%** · GUI 桌面应用 · ONNX 推理 · PyInstaller 打包
@@ -41,6 +43,20 @@
 - **GUI 桌面应用** — 支持单图预测和批量预测，含 Top-5 置信度展示
 - **批量预测分析** — 自动生成 9 种统计图表，含混淆矩阵、错误分析、低置信预警
 - **轻量部署** — ONNX Runtime 推理，无需完整 PyTorch 环境
+
+---
+
+## 模型与资源下载
+
+本项目相关预训练权重、划分好的数据集、测试样例、独立 GUI 安装包以及技术报告均已开放下载：
+
+- 🤗 **Hugging Face 模型库**：[RoL1n/20-Fruit_Recognition](https://huggingface.co/RoL1n/20-Fruit_Recognition) — 开源模型权重（`.pt`）与 ONNX 模型（`.onnx`）
+- 📦 **GitHub Releases**：[最新发布 (v1.0.0)](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest) 包含以下完整资产：
+  - 📄 **`report.pdf`** — 完整项目技术报告与实验分析
+  - 🧠 **`models.zip`** — 训练好的最优 PyTorch 权重（`best_resnet18_cbam.pt`）与 ONNX 模型（`best_resnet18_cbam.onnx`）
+  - 📊 **`data.zip`** — 已划分好的 20 种水果数据集（包含 `Training/`、`Validation/`、`Test/`）
+  - 🖼️ **`ImagesForTesting.zip`** — 精选测试样例图片包
+  - 💻 **`GUI_APP.zip`** — 独立打包好的桌面 GUI 应用程序（解压即用，无需配置 Python 环境）
 
 ---
 
@@ -107,8 +123,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/RolinShmily/fruit-recognition.git
-cd fruit-recognition
+git clone https://github.com/RolinShmily/20-Fruit_Recognition_System.git
+cd 20-Fruit_Recognition_System
 
 # 安装依赖
 pip install -r requirements.txt
@@ -116,7 +132,9 @@ pip install -r requirements.txt
 
 ### 数据准备
 
-1. 从 [fruits-262 数据集](https://github.com/fruits-262/fruits-262-original-size) 下载原始数据
+可直接从 [GitHub Releases](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest) 下载 `data.zip` 解压到项目根目录，或自行下载原始数据拆分：
+
+1. 从 [fruits-262 数据集](https://www.kaggle.com/datasets/aelchimminut/fruits262) 下载原始数据
 2. 将所选的 20 种水果类别放入 `data/` 目录
 3. 运行数据集拆分脚本：
 
@@ -143,7 +161,7 @@ python train.py
 - **Phase 1**（10 epochs）：冻结骨干网络，训练 CBAM + 分类头（lr=1e-3）
 - **Phase 2**（15 epochs）：解冻 Layer3+4，差异化学习率微调（骨干=1e-4, 分类头=5e-4）
 
-最佳模型自动保存至 `models/best_resnet18_cbam.pt`。
+最佳模型自动保存至 `models/best_resnet18_cbam.pt`。也可直接从 [Hugging Face](https://huggingface.co/RoL1n/20-Fruit_Recognition) 或 [GitHub Releases](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest) 下载预训练权重。
 
 ### 模型评估
 
@@ -171,7 +189,7 @@ python batch_predict.py images/
 ### GUI 图形界面
 
 ```bash
-# 先导出 ONNX 模型（GUI 推理必需）
+# 先导出 ONNX 模型（GUI 推理必需，若直接下载 models.zip 则已包含）
 python export_onnx.py
 
 # 启动 GUI
@@ -199,8 +217,8 @@ GUI 功能：
 ├── export_onnx.py         # 导出 ONNX 模型
 ├── split_dataset.py       # 数据集拆分脚本
 ├── requirements.txt       # Python 依赖
-├── data/                  # 数据集目录（不包含在仓库中）
-├── models/                # 模型保存目录
+├── data/                  # 数据集目录（可从 Release 的 data.zip 获取）
+├── models/                # 模型保存目录（可从 Release models.zip / Hugging Face 获取）
 ├── results/               # 结果输出目录
 └── images/                # 示例测试图片
 ```
@@ -279,7 +297,7 @@ pyinstaller --noconfirm --onedir --windowed ^
 | [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) | He et al., 2016 | 提出残差网络 ResNet |
 | [CBAM: Convolutional Block Attention Module](https://arxiv.org/abs/1807.06521) | Woo et al., 2018 | 提出通道+空间注意力机制 |
 | [CutMix: Regularization Strategy](https://arxiv.org/abs/1905.04899) | Yun et al., 2019 | 提出图像混合增强方法 |
-| [fruits-262 Dataset](https://github.com/fruits-262/fruits-262-original-size) | — | 自然背景水果图像数据集 |
+| [fruits-262 Dataset](https://www.kaggle.com/datasets/aelchimminut/fruits262) | — | 自然背景水果图像数据集 |
 
 ---
 

@@ -6,6 +6,8 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-orange.svg)](https://pytorch.org)
+[![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-RoL1n%2F20--Fruit__Recognition-yellow)](https://huggingface.co/RoL1n/20-Fruit_Recognition)
+[![GitHub Release](https://img.shields.io/badge/Release-v1.0.0-brightgreen.svg)](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **Test Accuracy: 91.78%** · GUI Application · ONNX Inference · PyInstaller Packaging
@@ -41,6 +43,20 @@ A deep learning-based fruit classification system that recognizes **20 types of 
 - **GUI Application** — Single image and batch prediction with Top-5 confidence visualization
 - **Batch Analysis** — Automatically generates 9 statistical charts including confusion matrix, error analysis, and low-confidence alerts
 - **Lightweight Deployment** — ONNX Runtime inference, no full PyTorch environment required
+
+---
+
+## Models & Resources
+
+All project assets, pre-trained weights, and documentation are available via GitHub Releases and Hugging Face:
+
+- 🤗 **Hugging Face Model Hub**: [RoL1n/20-Fruit_Recognition](https://huggingface.co/RoL1n/20-Fruit_Recognition) — Model checkpoints (`.pt`) and ONNX models (`.onnx`)
+- 📦 **GitHub Releases**: [Release v1.0.0](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest) provides downloadable packages:
+  - 📄 **`report.pdf`** — Comprehensive technical report & experimental analysis
+  - 🧠 **`models.zip`** — Pre-trained PyTorch checkpoint (`best_resnet18_cbam.pt`) and ONNX model (`best_resnet18_cbam.onnx`)
+  - 📊 **`data.zip`** — Pre-split 20-class fruit dataset (`Training/`, `Validation/`, `Test/`)
+  - 🖼️ **`ImagesForTesting.zip`** — Sample test images for instant evaluation
+  - 💻 **`GUI_APP.zip`** — Standalone desktop GUI executable (ready-to-run, no Python required)
 
 ---
 
@@ -107,8 +123,8 @@ Input Image (224×224)
 
 ```bash
 # Clone the repository
-git clone https://github.com/RolinShmily/fruit-recognition.git
-cd fruit-recognition
+git clone https://github.com/RolinShmily/20-Fruit_Recognition_System.git
+cd 20-Fruit_Recognition_System
 
 # Install dependencies
 pip install -r requirements.txt
@@ -116,7 +132,9 @@ pip install -r requirements.txt
 
 ### Data Preparation
 
-1. Download the [fruits-262 dataset](https://github.com/fruits-262/fruits-262-original-size)
+You can either download the pre-split `data.zip` directly from [Releases](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest) and extract it into the project root, or prepare from scratch:
+
+1. Download the [fruits-262 dataset](https://www.kaggle.com/datasets/aelchimminut/fruits262)
 2. Place the selected 20 fruit categories under `data/`
 3. Split the dataset:
 
@@ -124,7 +142,7 @@ pip install -r requirements.txt
 python split_dataset.py
 ```
 
-Expected output structure:
+Expected directory structure:
 
 ```
 data/
@@ -143,7 +161,7 @@ Two-stage training strategy:
 - **Phase 1** (10 epochs): Freeze backbone, train CBAM + classifier head (lr=1e-3)
 - **Phase 2** (15 epochs): Unfreeze Layer3+4, differential learning rates (backbone=1e-4, head=5e-4)
 
-The best model is automatically saved to `models/best_resnet18_cbam.pt`.
+The best model is automatically saved to `models/best_resnet18_cbam.pt`. Alternatively, download pre-trained weights from [Hugging Face](https://huggingface.co/RoL1n/20-Fruit_Recognition) or [GitHub Releases](https://github.com/RolinShmily/20-Fruit_Recognition_System/releases/latest).
 
 ### Evaluation
 
@@ -157,7 +175,7 @@ Outputs: classification report (Precision / Recall / F1), confusion matrix heatm
 
 ```bash
 # Single image
-python predict.py path/to/image.jpg
+python predict.py images/apple.jpg
 
 # Batch prediction with accuracy analysis
 python batch_predict.py images/
@@ -199,8 +217,8 @@ GUI features:
 ├── export_onnx.py         # Export PyTorch model to ONNX
 ├── split_dataset.py       # Dataset splitting script
 ├── requirements.txt       # Python dependencies
-├── data/                  # Dataset directory (not included)
-├── models/                # Saved models
+├── data/                  # Dataset directory (available in Release data.zip)
+├── models/                # Saved models (available in Release models.zip / Hugging Face)
 ├── results/               # Output results
 └── images/                # Sample test images
 ```
@@ -279,7 +297,7 @@ pyinstaller --noconfirm --onedir --windowed ^
 | [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) | He et al., 2016 | Proposed ResNet |
 | [CBAM: Convolutional Block Attention Module](https://arxiv.org/abs/1807.06521) | Woo et al., 2018 | Proposed channel + spatial attention |
 | [CutMix: Regularization Strategy](https://arxiv.org/abs/1905.04899) | Yun et al., 2019 | Proposed mixed-sample augmentation |
-| [fruits-262 Dataset](https://github.com/fruits-262/fruits-262-original-size) | — | Natural background fruit images |
+| [fruits-262 Dataset](https://www.kaggle.com/datasets/aelchimminut/fruits262) | — | Natural background fruit images |
 
 ---
 
